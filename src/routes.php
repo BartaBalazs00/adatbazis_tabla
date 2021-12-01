@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Response as FacadesResponse;
 use Adatbazis\Tabla\Film;
 use Adatbazis\Tabla\Felhasznalo;
 use Adatbazis\Tabla\Ertekeles;
+//use Illuminate\Support\Facades\DB;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Psr7\Response as Psr7Response;
@@ -286,12 +287,13 @@ return function(Slim\App $app) {
                     ->withStatus(200);
             });
         $app->get('/filmekertekelese',
-            function(Response $response) {
-                $ertekelesek = Ertekeles::table('ertekelesek')
-                ->join('filmek', 'filmek.id', '=', 'ertekelesek.film_id')
-                ->select('filmek.cim.*', 'ertekelesek.ertekeles')
+            function(Request $request, Response $response) {
+                $ertekelesek = Ertekeles::
+                join('filmek', 'filmek.id', '=', 'ertekelesek.film_id')
+                ->select('filmek.cim', 'ertekelesek.ertekeles')
                 ->get();
                 $response->getBody()->write($ertekelesek->toJson());
+                
                 return $response
                     ->withHeader('Content-Type', 'application/json')
                     ->withStatus(200);
