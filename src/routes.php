@@ -285,7 +285,7 @@ return function(Slim\App $app) {
                     ->withHeader('Content-Type', 'application/json')
                     ->withStatus(200);
             });
-            $app->get('/ertekelesek/film/',
+        $app->get('/filmekertekelese',
             function(Response $response) {
                 $ertekelesek = Ertekeles::table('ertekelesek')
                 ->join('filmek', 'filmek.id', '=', 'ertekelesek.film_id')
